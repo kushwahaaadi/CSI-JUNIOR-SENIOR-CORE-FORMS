@@ -66,11 +66,12 @@
       z-index: 10;
     }
 
+
     .logo-wrapper {
       margin-bottom: 2.5rem;
       opacity: 0;
       transform: translateY(20px);
-      animation: slideUp 0.8s ease 0.6s forwards;
+      animation: slideUp 0.8s ease 0.8s forwards;
     }
 
     .logo {
@@ -86,14 +87,21 @@
         0 0 60px rgba(139, 92, 246, 0.1),
         0 8px 32px rgba(0, 0, 0, 0.4);
       transition: box-shadow 0.4s ease, transform 0.4s ease;
+      animation: breatheGlow 4s ease-in-out 2s infinite;
     }
 
     .logo:hover {
       box-shadow:
-        0 0 30px rgba(139, 92, 246, 0.4),
-        0 0 80px rgba(139, 92, 246, 0.15),
+        0 0 40px rgba(139, 92, 246, 0.5),
+        0 0 100px rgba(139, 92, 246, 0.2),
         0 8px 32px rgba(0, 0, 0, 0.4);
-      transform: scale(1.05);
+      transform: scale(1.08) rotate(3deg);
+      animation-play-state: paused;
+    }
+
+    @keyframes breatheGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(139,92,246,0.25), 0 0 60px rgba(139,92,246,0.1), 0 8px 32px rgba(0,0,0,0.4); }
+      50%      { box-shadow: 0 0 35px rgba(139,92,246,0.4), 0 0 90px rgba(139,92,246,0.18), 0 8px 32px rgba(0,0,0,0.4); }
     }
 
     .heading {
@@ -104,12 +112,18 @@
       line-height: 1.15;
       margin-bottom: 1rem;
       background: linear-gradient(135deg, #ffffff 0%, #e0d4ff 30%, #c4b5fd 50%, #a78bfa 70%, #8b5cf6 100%);
+      background-size: 200% 100%;
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
       opacity: 0;
       transform: translateY(25px);
-      animation: slideUp 0.9s ease 0.9s forwards;
+      animation: slideUp 0.9s ease 1s forwards, textShimmer 6s ease-in-out 2.5s infinite;
+    }
+
+    @keyframes textShimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
     }
 
     .subtitle {
@@ -122,77 +136,164 @@
       max-width: 480px;
       opacity: 0;
       transform: translateY(20px);
-      animation: slideUp 0.8s ease 1.2s forwards;
+      animation: slideUp 0.8s ease 1.3s forwards;
     }
 
     .cta-wrapper {
       opacity: 0;
       transform: translateY(20px);
-      animation: slideUp 0.8s ease 1.5s forwards;
+      animation: slideUp 0.8s ease 1.6s forwards;
     }
 
+    /* ===== Premium CTA Button ===== */
     .cta-button {
       position: relative;
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      padding: 1rem 2.5rem;
+      gap: 0.75rem;
+      padding: 1.1rem 2.8rem;
       font-family: 'Inter', sans-serif;
       font-size: 1.05rem;
       font-weight: 600;
       color: #fff;
-      background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #a78bfa 100%);
-      border: none;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.6) 0%, rgba(139, 92, 246, 0.5) 50%, rgba(167, 139, 250, 0.4) 100%);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(167, 139, 250, 0.3);
       border-radius: 60px;
       cursor: pointer;
       text-decoration: none;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.04em;
       box-shadow:
-        0 0 20px rgba(139, 92, 246, 0.3),
-        0 0 60px rgba(139, 92, 246, 0.1),
-        0 4px 20px rgba(0, 0, 0, 0.3);
-      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        0 0 25px rgba(139, 92, 246, 0.3),
+        0 0 60px rgba(139, 92, 246, 0.08),
+        0 4px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
       overflow: hidden;
       z-index: 1;
+      isolation: isolate;
     }
 
+    /* Animated gradient border */
     .cta-button::before {
       content: '';
       position: absolute;
       top: -2px; left: -2px; right: -2px; bottom: -2px;
       border-radius: 62px;
-      background: linear-gradient(135deg, #a78bfa, #7c3aed, #6d28d9, #a78bfa);
-      background-size: 300% 300%;
-      z-index: -1;
-      animation: borderGlow 4s ease-in-out infinite;
-      opacity: 0.6;
+      background: conic-gradient(
+        from 0deg,
+        #a78bfa, #7c3aed, #6d28d9, #8b5cf6, #c4b5fd, #a78bfa
+      );
+      background-size: 100% 100%;
+      z-index: -2;
+      animation: rotateBorder 4s linear infinite;
+      opacity: 0;
+      transition: opacity 0.4s ease;
     }
 
+    .cta-button:hover::before {
+      opacity: 1;
+    }
+
+    /* Glass inner fill */
     .cta-button::after {
       content: '';
       position: absolute;
-      top: 2px; left: 2px; right: 2px; bottom: 2px;
-      border-radius: 58px;
-      background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #a78bfa 100%);
+      top: 1px; left: 1px; right: 1px; bottom: 1px;
+      border-radius: 59px;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.85) 0%, rgba(139, 92, 246, 0.75) 50%, rgba(109, 40, 217, 0.85) 100%);
       z-index: -1;
     }
 
-    @keyframes borderGlow {
-      0%, 100% { background-position: 0% 50%; opacity: 0.5; }
-      50% { background-position: 100% 50%; opacity: 1; }
+    @keyframes rotateBorder {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Shimmer sweep */
+    .cta-shimmer {
+      position: absolute;
+      top: 0; left: -100%; right: 0; bottom: 0;
+      width: 100%;
+      background: linear-gradient(
+        105deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.12) 45%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.12) 55%,
+        transparent 60%
+      );
+      animation: shimmerSweep 3.5s ease-in-out 2.5s infinite;
+      pointer-events: none;
+      border-radius: 60px;
+    }
+
+    @keyframes shimmerSweep {
+      0%   { transform: translateX(-100%); }
+      30%  { transform: translateX(200%); }
+      100% { transform: translateX(200%); }
+    }
+
+    /* Pulse ring on hover */
+    .cta-pulse {
+      position: absolute;
+      inset: 0;
+      border-radius: 60px;
+      border: 2px solid rgba(167, 139, 250, 0);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover .cta-pulse {
+      inset: -8px;
+      border-color: rgba(167, 139, 250, 0.3);
+      animation: pulseRing 1.5s ease-out infinite;
+    }
+
+    @keyframes pulseRing {
+      0%   { inset: -4px; border-color: rgba(167,139,250,0.4); opacity: 1; }
+      100% { inset: -20px; border-color: rgba(167,139,250,0); opacity: 0; }
+    }
+
+    /* Ripple effect on click */
+    .cta-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(0);
+      animation: rippleExpand 0.6s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes rippleExpand {
+      to { transform: scale(4); opacity: 0; }
     }
 
     .cta-button:hover {
-      transform: scale(1.06) translateY(-2px);
+      transform: scale(1.06) translateY(-3px);
       box-shadow:
-        0 0 35px rgba(139, 92, 246, 0.5),
-        0 0 80px rgba(139, 92, 246, 0.2),
-        0 8px 30px rgba(0, 0, 0, 0.3);
+        0 0 40px rgba(139, 92, 246, 0.5),
+        0 0 100px rgba(139, 92, 246, 0.15),
+        0 12px 40px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      border-color: rgba(167, 139, 250, 0.5);
     }
 
-    .cta-button:active { transform: scale(1.02); }
-    .cta-button .arrow { display: inline-block; transition: transform 0.3s ease; }
-    .cta-button:hover .arrow { transform: translateX(4px); }
+    .cta-button:active { transform: scale(1.02) translateY(0); }
+
+    .cta-button .arrow {
+      display: inline-flex;
+      font-size: 1.2em;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .cta-button:hover .arrow {
+      transform: translateX(5px);
+    }
+
+    .cta-button .btn-text {
+      position: relative;
+      z-index: 2;
+    }
 
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(25px); }
@@ -214,14 +315,315 @@
       z-index: 10;
     }
 
+    /* ===== Preloader ===== */
+    .preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #050208;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    .preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .preloader-logo {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: contain;
+      background: #fff;
+      padding: 5px;
+      animation: preloaderSpin 1.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+      box-shadow:
+        0 0 30px rgba(139, 92, 246, 0.4),
+        0 0 80px rgba(139, 92, 246, 0.15);
+    }
+
+    @keyframes preloaderSpin {
+      0%   { transform: rotate(0deg) scale(1); }
+      50%  { transform: rotate(180deg) scale(1.1); }
+      100% { transform: rotate(360deg) scale(1); }
+    }
+
+    .preloader-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #c4b5fd, #8b5cf6, #c4b5fd);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: preloaderShimmer 1.5s ease-in-out infinite;
+    }
+
+    @keyframes preloaderShimmer {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+
+    .preloader-bar {
+      width: 160px;
+      height: 3px;
+      background: rgba(139, 92, 246, 0.15);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .preloader-bar-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #7c3aed, #a78bfa);
+      border-radius: 3px;
+      animation: preloaderFill 2.2s ease forwards;
+    }
+
+    @keyframes preloaderFill {
+      to { width: 100%; }
+    }
+
+    /* ===== Countdown Timer ===== */
+    .countdown-wrapper {
+      margin-top: 2rem;
+      opacity: 0;
+      transform: translateY(15px);
+      animation: slideUp 0.8s ease 1.9s forwards;
+    }
+
+    .countdown-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: rgba(196, 181, 253, 0.5);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .countdown {
+      display: flex;
+      gap: 0.6rem;
+      justify-content: center;
+    }
+
+    .countdown-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 58px;
+      padding: 0.6rem 0.5rem;
+      background: rgba(139, 92, 246, 0.08);
+      border: 1px solid rgba(139, 92, 246, 0.15);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .countdown-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .countdown-unit {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      color: rgba(167, 139, 250, 0.6);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    .countdown-sep {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: rgba(167, 139, 250, 0.3);
+      align-self: flex-start;
+      padding-top: 0.6rem;
+      animation: colonBlink 1s ease-in-out infinite;
+    }
+
+    @keyframes colonBlink {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.3; }
+    }
+
+    .countdown-expired {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(248, 113, 113, 0.9);
+      text-align: center;
+      letter-spacing: 0.03em;
+    }
+
+    /* ===== Scroll Sections ===== */
+    .scroll-section {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
+    }
+
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .scroll-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children */
+    .scroll-reveal.stagger-1 { transition-delay: 0.1s; }
+    .scroll-reveal.stagger-2 { transition-delay: 0.2s; }
+    .scroll-reveal.stagger-3 { transition-delay: 0.3s; }
+    .scroll-reveal.stagger-4 { transition-delay: 0.4s; }
+    .scroll-reveal.stagger-5 { transition-delay: 0.5s; }
+    .scroll-reveal.stagger-6 { transition-delay: 0.6s; }
+
+    /* Section divider */
+    .section-divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, #7c3aed, #a78bfa);
+      border-radius: 3px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .section-subtitle {
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      color: rgba(196, 181, 253, 0.55);
+      text-align: center;
+      margin-bottom: 3rem;
+      font-weight: 400;
+    }
+
+    /* About Section */
+    .about-text {
+      font-size: clamp(0.95rem, 2vw, 1.08rem);
+      line-height: 1.85;
+      color: rgba(255, 255, 255, 0.75);
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .about-text strong {
+      color: #c4b5fd;
+      font-weight: 600;
+    }
+
+    .about-badge {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.45rem 1.2rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(167, 139, 250, 0.9);
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 50px;
+    }
+
+    /* Social Links */
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      background: rgba(139, 92, 246, 0.06);
+      border: 1px solid rgba(139, 92, 246, 0.15);
+      color: rgba(196, 181, 253, 0.8);
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    .social-link:hover {
+      background: rgba(139, 92, 246, 0.15);
+      border-color: rgba(167, 139, 250, 0.4);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);
+    }
+
+    .social-link svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+      flex-shrink: 0;
+      opacity: 0.85;
+      transition: opacity 0.3s ease;
+    }
+
+    .social-link:hover svg {
+      opacity: 1;
+    }
+
     /* ===== Responsive ===== */
     @media (max-width: 640px) {
       .main-container { padding: 2rem 1.25rem; }
+      .main-container { padding: 2rem 1.25rem; }
+      .glass-card { padding: 2.5rem 1.5rem 2rem; border-radius: 22px; }
       .logo { width: 90px; height: 90px; }
       .logo-wrapper { margin-bottom: 2rem; }
       .subtitle { margin-bottom: 2rem; }
       .cta-button { padding: 0.9rem 2rem; font-size: 0.95rem; }
       .bg-layer { background-attachment: scroll; }
+      .scroll-section { padding: 3.5rem 1.25rem; }
+      .social-links { gap: 0.7rem; }
+      .social-link { padding: 0.5rem 1rem; font-size: 0.78rem; }
+
     }
 
     @media (max-width: 380px) {
@@ -232,11 +634,15 @@
     /* ===== Reduced Motion ===== */
     @media (prefers-reduced-motion: reduce) {
       body { animation: none; opacity: 1; }
-      .logo-wrapper, .heading, .subtitle, .cta-wrapper, .footer-badge {
+      .preloader { display: none; }
+      .logo-wrapper, .heading, .subtitle, .cta-wrapper, .countdown-wrapper, .footer-badge {
         animation: none; opacity: 1; transform: translateY(0);
       }
+      .logo { animation: none; }
       .footer-badge { transform: translateX(-50%); }
       .cta-button::before { animation: none; opacity: 0.7; }
+      .cta-shimmer { animation: none; display: none; }
+      .countdown-sep { animation: none; }
       #fx-canvas, #bloom-canvas { display: none; }
       .bg-layer::after {
         content: '';
@@ -248,6 +654,13 @@
   </style>
 </head>
 <body>
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader">
+    <img src="image 4.png" alt="" class="preloader-logo" width="90" height="90">
+    <span class="preloader-text">CSI Bennett</span>
+    <div class="preloader-bar"><div class="preloader-bar-fill"></div></div>
+  </div>
 
   <!-- Background Image -->
   <div class="bg-layer" aria-hidden="true"></div>
@@ -266,19 +679,163 @@
     <h1 class="heading">Join Computer Society of India<br>Bennett University</h1>
     <p class="subtitle">Be part of something extraordinary.</p>
     <div class="cta-wrapper">
-      <!-- TODO: Replace # with your Microsoft Forms URL -->
-      <a href="#" target="_blank" rel="noopener noreferrer" class="cta-button" id="cta-apply">
-        Join as Senior Core Member
+      <a href="https://forms.cloud.microsoft/r/DgW5dL5USg" target="_blank" rel="noopener noreferrer" class="cta-button" id="cta-apply">
+        <span class="cta-shimmer"></span>
+        <span class="cta-pulse"></span>
+        <span class="btn-text">Join as Senior Core Member</span>
         <span class="arrow">→</span>
       </a>
     </div>
+    <!-- Countdown Timer -->
+    <div class="countdown-wrapper" id="countdown-wrapper">
+      <div class="countdown-label">Applications close in</div>
+      <div class="countdown" id="countdown">
+        <div class="countdown-block"><span class="countdown-num" id="cd-days">00</span><span class="countdown-unit">Days</span></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-block"><span class="countdown-num" id="cd-hours">00</span><span class="countdown-unit">Hours</span></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-block"><span class="countdown-num" id="cd-mins">00</span><span class="countdown-unit">Mins</span></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-block"><span class="countdown-num" id="cd-secs">00</span><span class="countdown-unit">Secs</span></div>
+      </div>
+    </div>
   </main>
+
+  <!-- About CSI Section -->
+  <section class="scroll-section" id="about-section">
+    <div class="section-divider scroll-reveal"></div>
+    <h2 class="section-title scroll-reveal stagger-1">About CSI, Bennett University</h2>
+    <p class="section-subtitle scroll-reveal stagger-2">Established 2017 · School of Computer Science & Engineering</p>
+    <p class="about-text scroll-reveal stagger-3">
+      <strong>Computer Society of India (CSI), Bennett University</strong> is a student-led technical chapter promoting technology, innovation, research, and professional development. We create opportunities for students to learn beyond the classroom — strengthening both technical and soft skills while encouraging <strong>collaboration, creativity, and problem-solving</strong>.
+    </p>
+    <p class="about-text scroll-reveal stagger-4" style="margin-top: 0.5rem;">
+      <span class="about-badge">🎓 Student-Led Since 2017</span>
+    </p>
+  </section>
+
+  <!-- Social Links Section -->
+  <section class="scroll-section" id="socials-section">
+    <div class="section-divider scroll-reveal"></div>
+    <h2 class="section-title scroll-reveal stagger-1">Connect With Us</h2>
+    <p class="section-subtitle scroll-reveal stagger-2">Follow CSI Bennett across platforms</p>
+    <div class="social-links scroll-reveal stagger-3">
+      <a href="https://www.instagram.com/csi.bu" target="_blank" rel="noopener noreferrer" class="social-link">
+        <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3Z"/></svg>
+        @csi.bu
+      </a>
+      <a href="https://www.instagram.com/hackaccino" target="_blank" rel="noopener noreferrer" class="social-link">
+        <svg viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3Z"/></svg>
+        @hackaccino
+      </a>
+      <a href="https://www.linkedin.com/company/csi-bu/" target="_blank" rel="noopener noreferrer" class="social-link">
+        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77Z"/></svg>
+        CSI-BU
+      </a>
+      <a href="https://github.com/CSI-Bennett-University/" target="_blank" rel="noopener noreferrer" class="social-link">
+        <svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
+        CSI-Bennett-University
+      </a>
+      <a href="https://hackaccino.in/" target="_blank" rel="noopener noreferrer" class="social-link">
+        <svg viewBox="0 0 24 24"><path d="M16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2 0-.68.06-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2M12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.923 7.923 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8.008 8.008 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26M12 4.03c.83 1.2 1.48 2.54 1.91 3.97h-3.82c.43-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.65 15.65 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2Z"/></svg>
+        hackaccino.in
+      </a>
+    </div>
+  </section>
 
   <div class="footer-badge" aria-hidden="true">CSI · Bennett University</div>
 
   <script>
   (function () {
     'use strict';
+
+    // ========================
+    // PRELOADER
+    // ========================
+    var preloader = document.getElementById('preloader');
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        preloader.classList.add('hidden');
+        // Remove from DOM after transition
+        setTimeout(function () { preloader.remove(); }, 600);
+      }, 2400);
+    });
+
+    // ========================
+    // COUNTDOWN TIMER
+    // ========================
+    // *** SET YOUR DEADLINE HERE ***
+    var DEADLINE = new Date('2026-09-06T23:59:59+05:30').getTime();
+
+    var cdDays  = document.getElementById('cd-days');
+    var cdHours = document.getElementById('cd-hours');
+    var cdMins  = document.getElementById('cd-mins');
+    var cdSecs  = document.getElementById('cd-secs');
+    var cdWrap  = document.getElementById('countdown-wrapper');
+    var cdBox   = document.getElementById('countdown');
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function updateCountdown() {
+      var now = Date.now();
+      var diff = DEADLINE - now;
+
+      if (diff <= 0) {
+        cdBox.innerHTML = '<span class="countdown-expired">🔒 Applications Closed</span>';
+        return;
+      }
+
+      var d = Math.floor(diff / 86400000);
+      var h = Math.floor((diff % 86400000) / 3600000);
+      var m = Math.floor((diff % 3600000) / 60000);
+      var s = Math.floor((diff % 60000) / 1000);
+
+      cdDays.textContent  = pad(d);
+      cdHours.textContent = pad(h);
+      cdMins.textContent  = pad(m);
+      cdSecs.textContent  = pad(s);
+
+      requestAnimationFrame(function () {
+        setTimeout(updateCountdown, 1000);
+      });
+    }
+
+    updateCountdown();
+
+    // ========================
+    // CTA RIPPLE EFFECT
+    // ========================
+    var ctaBtn = document.getElementById('cta-apply');
+    if (ctaBtn) {
+      ctaBtn.addEventListener('click', function (e) {
+        var rect = ctaBtn.getBoundingClientRect();
+        var ripple = document.createElement('span');
+        ripple.className = 'cta-ripple';
+        var size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        ctaBtn.appendChild(ripple);
+        ripple.addEventListener('animationend', function () { ripple.remove(); });
+      });
+    }
+
+    // ========================
+    // SCROLL REVEAL (Intersection Observer)
+    // ========================
+    var revealEls = document.querySelectorAll('.scroll-reveal');
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(function (el) {
+      revealObserver.observe(el);
+    });
 
     // Respect reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
