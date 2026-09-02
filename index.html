@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSI Senior Core | Bennett University</title>
+  <meta name="description" content="Join the Computer Society of India Senior Core Team at Bennett University. Be part of something extraordinary.">
+  <link rel="icon" href="image 4.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: #050208;
+      color: #fff;
+      opacity: 0;
+      animation: pageFadeIn 1.6s ease forwards;
+    }
+
+    @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ===== Background Image ===== */
+    .bg-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: url('purple-beam-bg.png') center/cover no-repeat;
+      background-attachment: fixed;
+    }
+
+    /* ===== Canvas Layers ===== */
+    #fx-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    #bloom-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      filter: blur(28px);
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+
+    /* ===== Content Overlay ===== */
+    .main-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    .logo-wrapper {
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 0.8s ease 0.6s forwards;
+    }
+
+    .logo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: contain;
+      background: #fff;
+      padding: 6px;
+      border: 2px solid rgba(139, 92, 246, 0.3);
+      box-shadow:
+        0 0 20px rgba(139, 92, 246, 0.25),
+        0 0 60px rgba(139, 92, 246, 0.1),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+    }
+
+    .logo:hover {
+      box-shadow:
+        0 0 30px rgba(139, 92, 246, 0.4),
+        0 0 80px rgba(139, 92, 246, 0.15),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+      transform: scale(1.05);
+    }
+
+    .heading {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 0%, #e0d4ff 30%, #c4b5fd 50%, #a78bfa 70%, #8b5cf6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0;
+      transform: translateY(25px);
+      animation: slideUp 0.9s ease 0.9s forwards;
+    }
+
+    .subtitle {
+      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+      font-weight: 400;
+      color: rgba(196, 181, 253, 0.7);
+      text-align: center;
+      letter-spacing: 0.02em;
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 0.8s ease 1.2s forwards;
+    }
+
+    .cta-wrapper {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideUp 0.8s ease 1.5s forwards;
+    }
+
+    .cta-button {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 1rem 2.5rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #a78bfa 100%);
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      box-shadow:
+        0 0 20px rgba(139, 92, 246, 0.3),
+        0 0 60px rgba(139, 92, 246, 0.1),
+        0 4px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: -2px; right: -2px; bottom: -2px;
+      border-radius: 62px;
+      background: linear-gradient(135deg, #a78bfa, #7c3aed, #6d28d9, #a78bfa);
+      background-size: 300% 300%;
+      z-index: -1;
+      animation: borderGlow 4s ease-in-out infinite;
+      opacity: 0.6;
+    }
+
+    .cta-button::after {
+      content: '';
+      position: absolute;
+      top: 2px; left: 2px; right: 2px; bottom: 2px;
+      border-radius: 58px;
+      background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #a78bfa 100%);
+      z-index: -1;
+    }
+
+    @keyframes borderGlow {
+      0%, 100% { background-position: 0% 50%; opacity: 0.5; }
+      50% { background-position: 100% 50%; opacity: 1; }
+    }
+
+    .cta-button:hover {
+      transform: scale(1.06) translateY(-2px);
+      box-shadow:
+        0 0 35px rgba(139, 92, 246, 0.5),
+        0 0 80px rgba(139, 92, 246, 0.2),
+        0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-button:active { transform: scale(1.02); }
+    .cta-button .arrow { display: inline-block; transition: transform 0.3s ease; }
+    .cta-button:hover .arrow { transform: translateX(4px); }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .footer-badge {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      color: rgba(167, 139, 250, 0.35);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: pageFadeIn 1s ease 2.2s forwards;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 640px) {
+      .main-container { padding: 2rem 1.25rem; }
+      .logo { width: 90px; height: 90px; }
+      .logo-wrapper { margin-bottom: 2rem; }
+      .subtitle { margin-bottom: 2rem; }
+      .cta-button { padding: 0.9rem 2rem; font-size: 0.95rem; }
+      .bg-layer { background-attachment: scroll; }
+    }
+
+    @media (max-width: 380px) {
+      .heading { font-size: 1.5rem; }
+      .cta-button { padding: 0.85rem 1.6rem; font-size: 0.9rem; }
+    }
+
+    /* ===== Reduced Motion ===== */
+    @media (prefers-reduced-motion: reduce) {
+      body { animation: none; opacity: 1; }
+      .logo-wrapper, .heading, .subtitle, .cta-wrapper, .footer-badge {
+        animation: none; opacity: 1; transform: translateY(0);
+      }
+      .footer-badge { transform: translateX(-50%); }
+      .cta-button::before { animation: none; opacity: 0.7; }
+      #fx-canvas, #bloom-canvas { display: none; }
+      .bg-layer::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 45% 65% at 50% 75%, rgba(139,92,246,0.15), transparent 70%);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Image -->
+  <div class="bg-layer" aria-hidden="true"></div>
+
+  <!-- FX Canvas (sharp effects) -->
+  <canvas id="fx-canvas" aria-hidden="true"></canvas>
+
+  <!-- Bloom Canvas (GPU-blurred glow) -->
+  <canvas id="bloom-canvas" aria-hidden="true"></canvas>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <div class="logo-wrapper">
+      <img src="image 4.png" alt="CSI Bennett University Logo" class="logo" width="110" height="110" loading="eager">
+    </div>
+    <h1 class="heading">Join Computer Society of India<br>Bennett University</h1>
+    <p class="subtitle">Be part of something extraordinary.</p>
+    <div class="cta-wrapper">
+      <!-- TODO: Replace # with your Microsoft Forms URL -->
+      <a href="#" target="_blank" rel="noopener noreferrer" class="cta-button" id="cta-apply">
+        Join as Senior Core Member
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </main>
+
+  <div class="footer-badge" aria-hidden="true">CSI · Bennett University</div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // Respect reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // ========================
+    // CANVAS SETUP
+    // ========================
+    const fxC = document.getElementById('fx-canvas');
+    const blC = document.getElementById('bloom-canvas');
+    const fx = fxC.getContext('2d', { alpha: true });
+    const bl = blC.getContext('2d', { alpha: true });
+
+    // ========================
+    // CONFIGURATION
+    // ========================
+    // Box position in IMAGE-relative coords (0-1 range)
+    const IMG_BOX_CX = 0.50;
+    const IMG_BOX_TY = 0.795;   // top surface Y
+    const IMG_BOX_BY = 0.875;   // bottom Y
+    const IMG_BOX_W  = 0.135;   // box width
+
+    const BEAM_SRC_HW_RATIO = 0.18;  // beam source half-width as fraction of box width
+    const BEAM_TOP_HW_FRAC  = 0.34;  // beam top half-width as fraction of viewport W
+
+    const SURGE_MIN = 3500;
+    const SURGE_MAX = 6500;
+    const MOUSE_INFLUENCE = 0.018;
+
+    // ========================
+    // STATE
+    // ========================
+    let W, H, dpr;
+    let boxCX, boxTY, boxBY, boxW, beamSrcHW, beamTopHW;
+    let mouseNX = 0.5, mouseNY = 0.5;
+    let time = 0;
+    let surgeAmt = 0, surgePhase = 'idle', surgeTmr = 0, nextSurge = 0;
+    let imgW = 512, imgH = 910;
+
+    // Particle arrays
+    let beamParts = [], ambParts = [], streaks = [], sparks = [];
+
+    // ========================
+    // IMAGE LOADING
+    // ========================
+    const bgImg = new Image();
+    bgImg.src = 'purple-beam-bg.png';
+    bgImg.onload = function () {
+      imgW = bgImg.naturalWidth;
+      imgH = bgImg.naturalHeight;
+      resize();
+    };
+
+    // ========================
+    // COORDINATE MAPPING
+    // ========================
+    function coverTransform() {
+      const ia = imgW / imgH, va = W / H;
+      let dW, dH, oX, oY;
+      if (va > ia) { dW = W; dH = W / ia; oX = 0; oY = (H - dH) / 2; }
+      else         { dH = H; dW = H * ia; oX = (W - dW) / 2; oY = 0; }
+      return { dW, dH, oX, oY };
+    }
+
+    function imgToVp(rx, ry) {
+      const t = coverTransform();
+      return { x: t.oX + rx * t.dW, y: t.oY + ry * t.dH };
+    }
+
+    // ========================
+    // RESIZE
+    // ========================
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth;
+      H = window.innerHeight;
+
+      fxC.width  = W * dpr;  fxC.height  = H * dpr;
+      fxC.style.width = W + 'px';  fxC.style.height = H + 'px';
+
+      // Bloom at half res for perf
+      blC.width  = Math.floor(W * dpr * 0.5);
+      blC.height = Math.floor(H * dpr * 0.5);
+      blC.style.width = W + 'px';  blC.style.height = H + 'px';
+
+      const ctr = imgToVp(IMG_BOX_CX, IMG_BOX_TY);
+      const bot = imgToVp(IMG_BOX_CX, IMG_BOX_BY);
+      const cv  = coverTransform();
+
+      boxCX = ctr.x;
+      boxTY = ctr.y;
+      boxBY = bot.y;
+      boxW  = IMG_BOX_W * cv.dW;
+      beamSrcHW = boxW * BEAM_SRC_HW_RATIO;
+      beamTopHW = W * BEAM_TOP_HW_FRAC;
+
+      initParticles();
+    }
+
+    // ========================
+    // BEAM GEOMETRY
+    // ========================
+    function beamHW(y) {
+      if (y >= boxTY) return beamSrcHW;
+      if (y <= 0) return beamTopHW;
+      const t = 1 - y / boxTY;
+      return beamSrcHW + (beamTopHW - beamSrcHW) * Math.pow(t, 0.75);
+    }
+
+    function beamEdgeWobble(y, t, seed) {
+      return Math.sin(y * 0.008 + t * 1.8 + seed) * 3 +
+             Math.sin(y * 0.018 + t * 3.2 + seed * 2) * 1.8;
+    }
+
+    function smoothstep(x) {
+      x = Math.max(0, Math.min(1, x));
+      return x * x * (3 - 2 * x);
+    }
+
+    // ========================
+    // PARTICLES
+    // ========================
+    function isMobile() { return W < 768; }
+
+    function initParticles() {
+      const m = isMobile();
+      beamParts = []; for (let i = 0; i < (m ? 130 : 280); i++) beamParts.push(mkBeam(true));
+      ambParts  = []; for (let i = 0; i < (m ? 20 : 45); i++)  ambParts.push(mkAmb(true));
+      streaks   = []; for (let i = 0; i < (m ? 6 : 14); i++)   streaks.push(mkStreak(true));
+      sparks    = []; for (let i = 0; i < (m ? 8 : 18); i++)   sparks.push(mkSpark(true));
+    }
+
+    function mkBeam(rand) {
+      const y = rand ? Math.random() * boxTY : boxTY - Math.random() * 15;
+      const hw = beamHW(y) * 0.65;
+      return {
+        x: boxCX + (Math.random() - 0.5) * hw * 2,
+        y: y,
+        vy: -(35 + Math.random() * 85),
+        vx: (Math.random() - 0.5) * 12,
+        sz: 0.8 + Math.random() * 2.2,
+        a:  0.3 + Math.random() * 0.7,
+        life: rand ? Math.random() * 6 : 0,
+        max: 3 + Math.random() * 5,
+        bright: Math.random() > 0.85 // ~15% are extra bright
+      };
+    }
+
+    function mkAmb(rand) {
+      return {
+        x: boxCX + (Math.random() - 0.5) * boxW * 4,
+        y: rand ? boxBY + (Math.random() - 0.3) * H * 0.25 : boxBY + Math.random() * 20,
+        vy: -(4 + Math.random() * 14),
+        vx: (Math.random() - 0.5) * 6,
+        sz: 0.8 + Math.random() * 1.5,
+        a:  0.15 + Math.random() * 0.35,
+        life: rand ? Math.random() * 8 : 0,
+        max: 6 + Math.random() * 12
+      };
+    }
+
+    function mkStreak(rand) {
+      const y = rand ? Math.random() * boxTY : boxTY;
+      const hw = beamHW(y) * 0.45;
+      return {
+        x: boxCX + (Math.random() - 0.5) * hw * 2,
+        y: y,
+        vy: -(250 + Math.random() * 450),
+        len: 25 + Math.random() * 65,
+        a:  0.08 + Math.random() * 0.22,
+        life: rand ? Math.random() * 2 : 0,
+        max: 0.8 + Math.random() * 1.8
+      };
+    }
+
+    function mkSpark(rand) {
+      return {
+        x: boxCX + (Math.random() - 0.5) * beamSrcHW * 3,
+        y: boxTY - Math.random() * 40,
+        vy: -(60 + Math.random() * 120),
+        vx: (Math.random() - 0.5) * 80,
+        a: 0,
+        life: rand ? Math.random() * 5 : 0,
+        max: 0.3 + Math.random() * 0.8,
+        active: false,
+        cd: rand ? Math.random() * 4 : 1 + Math.random() * 3
+      };
+    }
+
+    // ========================
+    // MOUSE TRACKING
+    // ========================
+    document.addEventListener('mousemove', function (e) {
+      mouseNX = e.clientX / W;
+      mouseNY = e.clientY / H;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', function (e) {
+      if (e.touches.length) {
+        mouseNX = e.touches[0].clientX / W;
+        mouseNY = e.touches[0].clientY / H;
+      }
+    }, { passive: true });
+
+    // ========================
+    // SURGE SYSTEM
+    // ========================
+    function scheduleSurge() {
+      nextSurge = time + SURGE_MIN / 1000 + Math.random() * (SURGE_MAX - SURGE_MIN) / 1000;
+    }
+
+    function updateSurge(dt) {
+      if (surgePhase === 'idle' && time >= nextSurge) {
+        surgePhase = 'build'; surgeTmr = 0;
+      }
+      surgeTmr += dt;
+
+      switch (surgePhase) {
+        case 'build':
+          surgeAmt = Math.min(1, surgeTmr / 0.35);
+          if (surgeTmr >= 0.35) { surgePhase = 'flash'; surgeTmr = 0; }
+          break;
+        case 'flash':
+          surgeAmt = 1;
+          if (surgeTmr >= 0.12) { surgePhase = 'hold'; surgeTmr = 0; }
+          break;
+        case 'hold':
+          surgeAmt = 0.85 + Math.sin(surgeTmr * 25) * 0.15;
+          if (surgeTmr >= 0.45) { surgePhase = 'decay'; surgeTmr = 0; }
+          break;
+        case 'decay':
+          surgeAmt = Math.max(0, 0.85 * (1 - surgeTmr / 1.4));
+          if (surgeTmr >= 1.4) { surgePhase = 'idle'; surgeAmt = 0; scheduleSurge(); }
+          break;
+      }
+    }
+
+    // ========================
+    // DRAWING HELPERS
+    // ========================
+    function beamNoise(y, t) {
+      return Math.sin(y * 0.007 + t * 1.4) * 0.3 +
+             Math.sin(y * 0.016 + t * 2.8) * 0.2 +
+             Math.sin(y * 0.003 + t * 0.7) * 0.5;
+    }
+
+    // Build the cone path with organic edge wobble
+    function traceCone(ctx, mOff, steps) {
+      steps = steps || 36;
+      ctx.beginPath();
+      // Left edge (top → bottom)
+      for (let i = 0; i <= steps; i++) {
+        const t = i / steps;
+        const y = t * boxTY;
+        const hw = beamHW(y) + beamEdgeWobble(y, time, 0);
+        const mx = mOff * (1 - t);
+        const x = boxCX - hw + mx;
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      // Right edge (bottom → top)
+      for (let i = steps; i >= 0; i--) {
+        const t = i / steps;
+        const y = t * boxTY;
+        const hw = beamHW(y) + beamEdgeWobble(y, time, 3.7);
+        const mx = mOff * (1 - t);
+        ctx.lineTo(boxCX + hw + mx, y);
+      }
+      ctx.closePath();
+    }
+
+    // ========================
+    // RENDERING FUNCTIONS
+    // ========================
+
+    function drawFloorGlow(ctx, s) {
+      ctx.save();
+      ctx.translate(boxCX, boxBY + 10);
+      ctx.scale(1, 0.22);
+      var r = W * 0.28 * s;
+      var g = ctx.createRadialGradient(0, 0, r * 0.02, 0, 0, r);
+      g.addColorStop(0, 'rgba(139, 92, 246, ' + (0.14 * s) + ')');
+      g.addColorStop(0.5, 'rgba(88, 28, 135, ' + (0.06 * s) + ')');
+      g.addColorStop(1, 'rgba(60, 20, 120, 0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawBeamBody(ctx, s, mOff) {
+      var pulse = 0.85 + beamNoise(H * 0.4, time) * 0.15;
+      var base = 0.065 * s * pulse;
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      traceCone(ctx, mOff);
+
+      // Inner fill gradient
+      var g = ctx.createLinearGradient(boxCX, boxTY, boxCX, 0);
+      g.addColorStop(0, 'rgba(200, 160, 255, ' + Math.min(0.28, base * 3.5) + ')');
+      g.addColorStop(0.08, 'rgba(160, 120, 255, ' + Math.min(0.18, base * 2.5) + ')');
+      g.addColorStop(0.35, 'rgba(120, 80, 220, ' + base + ')');
+      g.addColorStop(0.7, 'rgba(90, 50, 190, ' + (base * 0.55) + ')');
+      g.addColorStop(1, 'rgba(60, 30, 150, ' + (base * 0.08) + ')');
+      ctx.fillStyle = g;
+      ctx.fill();
+
+      // Second pass: brighter center stripe
+      var g2 = ctx.createLinearGradient(boxCX, boxTY, boxCX, 0);
+      var ca = base * 1.2;
+      g2.addColorStop(0, 'rgba(220, 200, 255, ' + Math.min(0.2, ca) + ')');
+      g2.addColorStop(0.15, 'rgba(180, 150, 255, ' + Math.min(0.08, ca * 0.5) + ')');
+      g2.addColorStop(0.5, 'rgba(140, 100, 240, ' + (ca * 0.15) + ')');
+      g2.addColorStop(1, 'rgba(100, 60, 200, 0)');
+
+      // Narrower inner cone
+      ctx.beginPath();
+      var shrink = 0.5;
+      for (var i = 0; i <= 20; i++) {
+        var t = i / 20, y = t * boxTY;
+        var hw = (beamHW(y) + beamEdgeWobble(y, time, 0)) * shrink;
+        var mx = mOff * (1 - t);
+        i === 0 ? ctx.moveTo(boxCX - hw + mx, y) : ctx.lineTo(boxCX - hw + mx, y);
+      }
+      for (var i = 20; i >= 0; i--) {
+        var t = i / 20, y = t * boxTY;
+        var hw = (beamHW(y) + beamEdgeWobble(y, time, 3.7)) * shrink;
+        var mx = mOff * (1 - t);
+        ctx.lineTo(boxCX + hw + mx, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = g2;
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function drawVolumetricBands(ctx, s, mOff) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      traceCone(ctx, mOff);
+      ctx.clip();
+
+      var bandCount = 6;
+      var spacing = boxTY / bandCount;
+
+      for (var i = 0; i < bandCount; i++) {
+        var baseY = (time * 60 + i * spacing) % (boxTY + 80) - 40;
+        var y = boxTY - baseY;
+        if (y < -40 || y > boxTY + 40) continue;
+
+        var hw = beamHW(Math.max(0, y)) * 0.55;
+        var bandA = 0.04 * s * (0.6 + Math.sin(time * 2 + i * 1.5) * 0.4);
+        var g = ctx.createRadialGradient(boxCX + mOff * (1 - y / boxTY), y, 0,
+                                          boxCX + mOff * (1 - y / boxTY), y, hw);
+        g.addColorStop(0, 'rgba(200, 170, 255, ' + bandA + ')');
+        g.addColorStop(0.6, 'rgba(140, 100, 240, ' + (bandA * 0.3) + ')');
+        g.addColorStop(1, 'rgba(100, 60, 200, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(boxCX - hw * 1.5, y - 18, hw * 3, 36);
+      }
+
+      ctx.restore();
+    }
+
+    function drawBeamEdges(ctx, s, mOff) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      var pulse = 0.7 + beamNoise(H * 0.3, time) * 0.3;
+      var alpha = 0.18 * s * pulse;
+      ctx.lineWidth = 1.5;
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = 'rgba(167, 139, 250, ' + (alpha * 2) + ')';
+      ctx.strokeStyle = 'rgba(180, 150, 255, ' + alpha + ')';
+
+      // Left edge
+      ctx.beginPath();
+      for (var i = 0; i <= 30; i++) {
+        var t = i / 30, y = t * boxTY;
+        var hw = beamHW(y) + beamEdgeWobble(y, time, 0);
+        var x = boxCX - hw + mOff * (1 - t);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Right edge
+      ctx.beginPath();
+      for (var i = 0; i <= 30; i++) {
+        var t = i / 30, y = t * boxTY;
+        var hw = beamHW(y) + beamEdgeWobble(y, time, 3.7);
+        var x = boxCX + hw + mOff * (1 - t);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawBeamCore(ctx, s, mOff) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      var pulse = 0.6 + beamNoise(H * 0.5, time + 1) * 0.4;
+      var a = 0.12 * s * pulse;
+
+      ctx.lineWidth = 2;
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = 'rgba(200, 180, 255, ' + (a * 2.5) + ')';
+      ctx.strokeStyle = 'rgba(230, 210, 255, ' + a + ')';
+
+      ctx.beginPath();
+      for (var i = 0; i <= 25; i++) {
+        var t = i / 25, y = t * boxTY;
+        var wobble = Math.sin(y * 0.012 + time * 2.5) * 2;
+        var x = boxCX + wobble + mOff * (1 - t);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawBoxGlow(ctx, s) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      var pulse = 0.7 + Math.sin(time * 3) * 0.15 + Math.sin(time * 5.3) * 0.15;
+      var r = boxW * 0.6 * s;
+      var g = ctx.createRadialGradient(boxCX, boxTY, 0, boxCX, boxTY, r);
+      g.addColorStop(0, 'rgba(220, 200, 255, ' + (0.3 * s * pulse) + ')');
+      g.addColorStop(0.3, 'rgba(160, 120, 255, ' + (0.12 * s * pulse) + ')');
+      g.addColorStop(0.7, 'rgba(120, 80, 230, ' + (0.04 * s * pulse) + ')');
+      g.addColorStop(1, 'rgba(80, 40, 180, 0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(boxCX, boxTY, r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawAtmosphericHaze(ctx, s) {
+      ctx.save();
+      var a = 0.03 * s + beamNoise(0, time) * 0.01;
+      var g = ctx.createRadialGradient(boxCX, boxTY * 0.5, 0, boxCX, boxTY * 0.5, H * 0.6);
+      g.addColorStop(0, 'rgba(100, 60, 200, ' + a + ')');
+      g.addColorStop(0.5, 'rgba(60, 30, 150, ' + (a * 0.4) + ')');
+      g.addColorStop(1, 'rgba(30, 10, 80, 0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+      ctx.restore();
+    }
+
+    function updateAndDrawBeamParticles(ctx, dt, s, mOff) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+
+      for (var i = 0; i < beamParts.length; i++) {
+        var p = beamParts[i];
+        p.life += dt;
+
+        if (p.life >= p.max || p.y < -20) {
+          beamParts[i] = mkBeam(false);
+          continue;
+        }
+
+        // Mouse push
+        var dx = (mouseNX - 0.5) * W - p.x;
+        var dy = mouseNY * H - p.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120 && dist > 0) {
+          var force = (120 - dist) / 120 * 0.4;
+          p.vx -= (dx / dist) * force;
+        }
+
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+
+        // Keep within cone
+        var hw = beamHW(Math.max(0, p.y)) * 0.75;
+        var cxOff = boxCX + mOff * Math.max(0, 1 - p.y / boxTY);
+        if (p.x < cxOff - hw) p.x = cxOff - hw + 2;
+        if (p.x > cxOff + hw) p.x = cxOff + hw - 2;
+
+        // Fade in/out
+        var lifeT = p.life / p.max;
+        var fadeA = lifeT < 0.1 ? lifeT / 0.1 : lifeT > 0.85 ? (1 - lifeT) / 0.15 : 1;
+        var heightFade = Math.max(0.15, p.y / boxTY);
+        var a = p.a * fadeA * heightFade * s * (p.bright ? 1.5 : 1);
+
+        if (a < 0.01) continue;
+
+        // Draw
+        var sz = p.sz * (p.bright ? 1.3 : 1);
+        ctx.fillStyle = p.bright
+          ? 'rgba(230, 210, 255, ' + Math.min(1, a) + ')'
+          : 'rgba(180, 150, 255, ' + Math.min(1, a) + ')';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, sz, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    function updateAndDrawAmbientParticles(ctx, dt, s) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+
+      for (var i = 0; i < ambParts.length; i++) {
+        var p = ambParts[i];
+        p.life += dt;
+
+        if (p.life >= p.max) {
+          ambParts[i] = mkAmb(false);
+          continue;
+        }
+
+        p.x += p.vx * dt + Math.sin(time * 0.8 + i * 2) * 0.3;
+        p.y += p.vy * dt;
+
+        var lifeT = p.life / p.max;
+        var fadeA = lifeT < 0.15 ? lifeT / 0.15 : lifeT > 0.8 ? (1 - lifeT) / 0.2 : 1;
+        var a = p.a * fadeA * s;
+
+        if (a < 0.01) continue;
+
+        ctx.fillStyle = 'rgba(167, 139, 250, ' + Math.min(1, a) + ')';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.sz, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.restore();
+    }
+
+    function updateAndDrawStreaks(ctx, dt, s, mOff) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+
+      for (var i = 0; i < streaks.length; i++) {
+        var p = streaks[i];
+        p.life += dt;
+
+        if (p.life >= p.max || p.y < -p.len) {
+          streaks[i] = mkStreak(false);
+          continue;
+        }
+
+        p.y += p.vy * dt;
+
+        var lifeT = p.life / p.max;
+        var fadeA = lifeT < 0.15 ? lifeT / 0.15 : lifeT > 0.7 ? (1 - lifeT) / 0.3 : 1;
+        var a = p.a * fadeA * s;
+
+        if (a < 0.01) continue;
+
+        var cxOff = boxCX + mOff * Math.max(0, 1 - p.y / boxTY);
+        var xOff = p.x - boxCX;
+        var x = cxOff + xOff;
+
+        var g = ctx.createLinearGradient(x, p.y, x, p.y + p.len);
+        g.addColorStop(0, 'rgba(200, 180, 255, ' + a + ')');
+        g.addColorStop(1, 'rgba(140, 100, 240, 0)');
+        ctx.strokeStyle = g;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x, p.y);
+        ctx.lineTo(x, p.y + p.len);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+
+    function updateAndDrawSparks(ctx, dt, s) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+
+      for (var i = 0; i < sparks.length; i++) {
+        var p = sparks[i];
+
+        if (!p.active) {
+          p.cd -= dt;
+          if (p.cd <= 0 && (surgeAmt > 0.3 || Math.random() < 0.005)) {
+            p.active = true;
+            p.life = 0;
+            p.x = boxCX + (Math.random() - 0.5) * beamSrcHW * 3;
+            p.y = boxTY - Math.random() * 30;
+            p.vx = (Math.random() - 0.5) * 100;
+            p.vy = -(80 + Math.random() * 140);
+          }
+          continue;
+        }
+
+        p.life += dt;
+        if (p.life >= p.max) {
+          p.active = false;
+          p.cd = 1.5 + Math.random() * 4;
+          continue;
+        }
+
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.vx *= 0.97;
+
+        var lifeT = p.life / p.max;
+        var a = (1 - lifeT) * 0.5 * s;
+
+        ctx.strokeStyle = 'rgba(200, 170, 255, ' + a + ')';
+        ctx.lineWidth = 1.5;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(167, 139, 250, ' + (a * 2) + ')';
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x - p.vx * dt * 3, p.y - p.vy * dt * 3);
+        ctx.stroke();
+      }
+
+      ctx.restore();
+    }
+
+    function drawSurgeFlash(ctx, s) {
+      if (surgeAmt < 0.3) return;
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+
+      // Bright flash at box surface
+      var r = boxW * (0.8 + surgeAmt * 0.5);
+      var g = ctx.createRadialGradient(boxCX, boxTY, 0, boxCX, boxTY, r);
+      var a = surgeAmt * 0.25;
+      g.addColorStop(0, 'rgba(255, 240, 255, ' + a + ')');
+      g.addColorStop(0.3, 'rgba(200, 170, 255, ' + (a * 0.5) + ')');
+      g.addColorStop(1, 'rgba(139, 92, 246, 0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(boxCX, boxTY, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Screen-wide atmospheric flash
+      var sa = surgeAmt * 0.04;
+      ctx.fillStyle = 'rgba(100, 60, 200, ' + sa + ')';
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.restore();
+    }
+
+    // ========================
+    // BLOOM PASS
+    // ========================
+    function drawBloom(s, mOff) {
+      var sc = blC.width / W;
+      bl.setTransform(sc, 0, 0, sc, 0, 0);
+      bl.clearRect(0, 0, W, H);
+
+      bl.globalCompositeOperation = 'lighter';
+
+      // Beam body (brighter, for glow)
+      var pulse = 0.85 + beamNoise(H * 0.4, time) * 0.15;
+      var base = 0.1 * s * pulse;
+
+      bl.save();
+      traceCone(bl, mOff, 20);
+      var g = bl.createLinearGradient(boxCX, boxTY, boxCX, 0);
+      g.addColorStop(0, 'rgba(180, 150, 255, ' + Math.min(0.35, base * 3) + ')');
+      g.addColorStop(0.2, 'rgba(139, 92, 246, ' + Math.min(0.15, base * 1.5) + ')');
+      g.addColorStop(0.6, 'rgba(100, 60, 200, ' + (base * 0.4) + ')');
+      g.addColorStop(1, 'rgba(60, 30, 150, 0)');
+      bl.fillStyle = g;
+      bl.fill();
+      bl.restore();
+
+      // Box glow (brighter)
+      var r = boxW * 0.7 * s;
+      var bg = bl.createRadialGradient(boxCX, boxTY, 0, boxCX, boxTY, r);
+      bg.addColorStop(0, 'rgba(220, 200, 255, ' + (0.4 * s * pulse) + ')');
+      bg.addColorStop(0.5, 'rgba(139, 92, 246, ' + (0.1 * s * pulse) + ')');
+      bg.addColorStop(1, 'rgba(80, 40, 180, 0)');
+      bl.fillStyle = bg;
+      bl.beginPath();
+      bl.arc(boxCX, boxTY, r, 0, Math.PI * 2);
+      bl.fill();
+
+      // Core line bloom
+      var ca = 0.18 * s * pulse;
+      bl.strokeStyle = 'rgba(220, 200, 255, ' + ca + ')';
+      bl.lineWidth = 4;
+      bl.beginPath();
+      for (var i = 0; i <= 15; i++) {
+        var t = i / 15, y = t * boxTY;
+        var wobble = Math.sin(y * 0.012 + time * 2.5) * 2;
+        var x = boxCX + wobble + mOff * (1 - t);
+        i === 0 ? bl.moveTo(x, y) : bl.lineTo(x, y);
+      }
+      bl.stroke();
+
+      // Surge bloom
+      if (surgeAmt > 0.2) {
+        var sr = boxW * (1 + surgeAmt);
+        var sg = bl.createRadialGradient(boxCX, boxTY, 0, boxCX, boxTY, sr);
+        sg.addColorStop(0, 'rgba(255, 240, 255, ' + (surgeAmt * 0.35) + ')');
+        sg.addColorStop(0.5, 'rgba(180, 140, 255, ' + (surgeAmt * 0.1) + ')');
+        sg.addColorStop(1, 'rgba(100, 60, 200, 0)');
+        bl.fillStyle = sg;
+        bl.beginPath();
+        bl.arc(boxCX, boxTY, sr, 0, Math.PI * 2);
+        bl.fill();
+      }
+
+      bl.setTransform(1, 0, 0, 1, 0, 0);
+    }
+
+    // ========================
+    // MAIN RENDER
+    // ========================
+    function render(dt) {
+      // Intro: beam intensity ramps up over first 2.5s
+      var intro = smoothstep(Math.min(1, time / 2.5));
+      var surge = (1 + surgeAmt * 0.8) * intro;
+      var mOff = (mouseNX - 0.5) * W * MOUSE_INFLUENCE * intro;
+
+      // Setup main canvas
+      fx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      fx.clearRect(0, 0, W, H);
+
+      // Draw layers (order matters)
+      drawFloorGlow(fx, surge);
+      drawAtmosphericHaze(fx, surge);
+      drawBeamBody(fx, surge, mOff);
+      drawVolumetricBands(fx, surge, mOff);
+      drawBeamEdges(fx, surge, mOff);
+      drawBeamCore(fx, surge, mOff);
+      updateAndDrawStreaks(fx, dt, surge, mOff);
+      updateAndDrawBeamParticles(fx, dt, surge, mOff);
+      updateAndDrawSparks(fx, dt, surge);
+      updateAndDrawAmbientParticles(fx, dt, surge);
+      drawBoxGlow(fx, surge);
+      drawSurgeFlash(fx, surge);
+
+      // Bloom pass
+      drawBloom(surge, mOff);
+    }
+
+    // ========================
+    // ANIMATION LOOP
+    // ========================
+    var lastT = 0;
+
+    function loop(ts) {
+      var dt = Math.min((ts - lastT) / 1000, 0.05);
+      lastT = ts;
+      time += dt;
+
+      updateSurge(dt);
+      render(dt);
+
+      requestAnimationFrame(loop);
+    }
+
+    // ========================
+    // INIT
+    // ========================
+    resize();
+    scheduleSurge();
+    window.addEventListener('resize', resize);
+
+    requestAnimationFrame(function (ts) {
+      lastT = ts;
+      loop(ts);
+    });
+  })();
+  </script>
+</body>
+</html>
