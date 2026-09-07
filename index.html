@@ -765,7 +765,7 @@
     // COUNTDOWN TIMER
     // ========================
     // *** SET YOUR DEADLINE HERE ***
-    var DEADLINE = new Date('2026-09-07T23:59:59+05:30').getTime();
+    var DEADLINE = new Date('2026-09-09T23:59:59+05:30').getTime();
 
     var cdDays  = document.getElementById('cd-days');
     var cdHours = document.getElementById('cd-hours');
@@ -782,6 +782,10 @@
 
       if (diff <= 0) {
         cdBox.innerHTML = '<span class="countdown-expired">🔒 Applications Closed</span>';
+        var ctaWrapper = document.querySelector('.cta-wrapper');
+        if (ctaWrapper) {
+          ctaWrapper.innerHTML = '<div style="padding: 1.1rem 2rem; background: rgba(139, 92, 246, 0.08); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 60px; backdrop-filter: blur(12px); color: rgba(196, 181, 253, 0.9); font-size: 1rem; font-weight: 500; text-align: center; line-height: 1.5; margin: 0 auto; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);">Sorry you are late to register, but we hope you will volunteer in <strong style="color: #fff; font-weight: 700;">Hackaccino 5.0</strong>!</div>';
+        }
         return;
       }
 
