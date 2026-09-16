@@ -9,6 +9,12 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
+@media (pointer: fine) {
+  body, html {
+    cursor: none;
+  }
+}
+
 ::selection { background: rgb(var(--primary)); color: #fff; }
 ::-webkit-scrollbar { width: 10px; }
 ::-webkit-scrollbar-track { background: #050208; }

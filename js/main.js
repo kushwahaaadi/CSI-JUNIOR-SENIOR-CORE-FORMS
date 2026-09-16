@@ -224,3 +224,44 @@ if (lightbox && lightboxImg) {
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   initCanvas();
 }
+
+// Custom Cursor Logic
+if (window.matchMedia('(pointer: fine)').matches) {
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  
+  if (dot && ring) {
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+    
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.left = mouseX + 'px';
+      dot.style.top = mouseY + 'px';
+    });
+    
+    const renderCursor = () => {
+      // Spring physics for the ring
+      ringX += (mouseX - ringX) * 0.15;
+      ringY += (mouseY - ringY) * 0.15;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+      requestAnimationFrame(renderCursor);
+    };
+    requestAnimationFrame(renderCursor);
+    
+    // Add hover states
+    const addHover = (selector, className = 'hovered') => {
+      document.querySelectorAll(selector).forEach(el => {
+        el.addEventListener('mouseenter', () => { dot.classList.add(className); ring.classList.add(className); });
+        el.addEventListener('mouseleave', () => { dot.classList.remove(className); ring.classList.remove(className); });
+      });
+    };
+    
+    addHover('a, button, .faq-question, .gallery-img', 'hovered');
+    addHover('p, h1, h2, h3, h4, span, li', 'hovered-text');
+  }
+}
