@@ -1,0 +1,66 @@
+/* ===== Background Image ===== */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: url('../purple-beam-bg.webp') center/cover no-repeat;
+  background-attachment: fixed;
+}
+
+/* ===== Canvas Layers ===== */
+#fx-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+#bloom-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  filter: blur(28px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+/* ===== Content Overlay ===== */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 3rem 1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.scroll-section {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .main-container { padding: 2rem 1.25rem; }
+  .scroll-section { padding: 3.5rem 1.25rem; }
+  .bg-layer { background-attachment: scroll; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body { animation: none; opacity: 1; }
+  #fx-canvas, #bloom-canvas { display: none; }
+  .bg-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 45% 65% at 50% 75%, rgba(var(--primary), 0.15), transparent 70%);
+  }
+}

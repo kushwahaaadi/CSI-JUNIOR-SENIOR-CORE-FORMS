@@ -1,0 +1,34 @@
+:root {
+  --primary: 139, 92, 246; /* rgb(var(--primary)) */
+  --primary-light: 167, 139, 250;
+  --primary-dark: 124, 58, 237;
+  --primary-darker: 109, 40, 217;
+  --primary-lightest: 196, 181, 253;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+::selection { background: rgb(var(--primary)); color: #fff; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #050208; }
+::-webkit-scrollbar-thumb { background: rgba(var(--primary-dark), 0.6); border-radius: 5px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(var(--primary), 0.8); }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #050208;
+  color: #fff;
+  opacity: 0;
+  animation: pageFadeIn 1.6s ease forwards;
+}
+
+/* Utilities */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.mt-sm { margin-top: 0.5rem; }
+.mt-md { margin-top: 1rem; }
+.mt-lg { margin-top: 1.5rem; }
+.mt-xl { margin-top: 3rem; }
+.text-primary-lightest { color: rgb(var(--primary-lightest)); font-weight: 600; }

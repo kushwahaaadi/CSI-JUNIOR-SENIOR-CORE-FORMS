@@ -1,0 +1,64 @@
+@keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes breatheGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(var(--primary), 0.25), 0 0 60px rgba(var(--primary), 0.1), 0 8px 32px rgba(0,0,0,0.4); }
+  50%      { box-shadow: 0 0 35px rgba(var(--primary), 0.4), 0 0 90px rgba(var(--primary), 0.18), 0 8px 32px rgba(0,0,0,0.4); }
+}
+@keyframes textShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+@keyframes rotateBorder { to { transform: rotate(360deg); } }
+@keyframes shimmerSweep {
+  0%   { transform: translateX(-100%); }
+  30%  { transform: translateX(200%); }
+  100% { transform: translateX(200%); }
+}
+@keyframes pulseRing {
+  0%   { inset: -4px; border-color: rgba(var(--primary-light), 0.4); opacity: 1; }
+  100% { inset: -20px; border-color: rgba(var(--primary-light), 0); opacity: 0; }
+}
+@keyframes rippleExpand { to { transform: scale(4); opacity: 0; } }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes preloaderSpin {
+  0%   { transform: rotate(0deg) scale(1); }
+  50%  { transform: rotate(180deg) scale(1.1); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+@keyframes preloaderShimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+@keyframes preloaderFill { to { width: 100%; } }
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.8; }
+  50% { transform: translateY(8px); opacity: 0.3; }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children */
+.scroll-reveal.stagger-1 { transition-delay: 0.1s; }
+.scroll-reveal.stagger-2 { transition-delay: 0.2s; }
+.scroll-reveal.stagger-3 { transition-delay: 0.3s; }
+.scroll-reveal.stagger-4 { transition-delay: 0.4s; }
+.scroll-reveal.stagger-5 { transition-delay: 0.5s; }
+.scroll-reveal.stagger-6 { transition-delay: 0.6s; }
+.scroll-reveal.stagger-7 { transition-delay: 0.7s; }
+.scroll-reveal.stagger-8 { transition-delay: 0.8s; }
+.scroll-reveal.stagger-9 { transition-delay: 0.9s; }
