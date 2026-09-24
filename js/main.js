@@ -1,6 +1,6 @@
 import { initCanvas, setCanvasVisibility } from './canvas-fx.js';
 
-const DEADLINE = new Date('2026-09-23T23:59:59+05:30').getTime();
+const DEADLINE = new Date('2026-09-30T23:59:59+05:30').getTime();
 
 // Smooth Scrolling (Lenis)
 const lenis = new Lenis({
